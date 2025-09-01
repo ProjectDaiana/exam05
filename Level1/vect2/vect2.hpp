@@ -30,14 +30,58 @@ class vect2 {
 			return vect2(x - scalar, y - scalar);
 		}
 
-		vect2& operator+(const vect2&) {
-			return
+		vect2 operator+(const int scalar) {
+			this->x = this->x + scalar;
+			this->y = this->y + scalar;
+		}
+
+		vect2& operator-(const int scalar) {
+			this->x = this->x - scalar;
+			this->y = this->y - scalar;
+		}
+
+		vect2& operator*(const int scalar) {
+			this->x = this->x * scalar;
+			this->y-= this->y * scalar;
+		}
+
+
+		vect2& operator+(const other& vect) {
+			return vect2((this->x + other.x), (this->y + other.y));
+		}
+
+		vect2& operator-(const other& vect) {
+			return vect2((this->x - other.x), (this->y - other.y));
+		}
+
+		vect2& operator*(const other& vect) {
+			return vect2((this->x * other.x), (this->y * other.y));
+		}
+
+
+		vect2& operator+(const other& vect) {
+			this->x = this->x + other.x;
+			this->y = this->y + other.y;
+		}
+
+		vect2& operator-(const other& vect) {
+			this->x = this->x - other.x;
+			this->y = this->y - other.y;
+		}
+
+		vect2& operator*(const other& vect) {
+			this->x = this->x * other.x;
+			this->y-= this->y * other.y;
 		}
 
 		//operator
+		std::ostream& operator<<(std::ostream& os, const vect2& vect){
+			os << vect.x << ", " << vect.y << std::endl:
+			return os;
+		}
+	
 		vect2 operator[]{};
-		vect2 operator<<{};
 
 		std::vector
 
-}
+};
