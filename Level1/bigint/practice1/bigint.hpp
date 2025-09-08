@@ -16,7 +16,7 @@ class bigint {
 	bigint(size_t n) { //fill up the deque
 		while(n) {
 			digits.push_front(static_cast<int>(n % 10));
-			n =/ 10;
+			n /= 10;
 		}
 		if (digits.empty())
 			digits.push_front(0);
@@ -29,10 +29,11 @@ class bigint {
 	};	
 
 	//ostream overload
-	friend std::ostream <<(std::ostream& os, bigint bi) {
-		os << bi.digits;
-		retunr os;
-	}
+	friend std::ostream& operator<<(std::ostream& os, const bigint& bi) {
+		for (size_t i = 0; i < bi.digits.size(); i++)
+			os << bi.digits[i];
+		return os;
+	}/*
 
 	//increment pre y post
 	bigint& operator++() {
@@ -68,13 +69,13 @@ class bigint {
 	bigint operator>>() {}
 	bigint operator<<=() {}
 	bigint operator>>=() {}
-
+*/
 	// bools
 	// mayor y menor
 	bool operator<(const bigint& other) const {
 		if(digits.size() < other.digits.size())
 			return true;
-		else if (digits.size() > other.size(i))
+		else if (digits.size() > other.digits.size())
 			return false;
 		for (size_t i= 0; i < digits.size(); i++)
 			if (digits[i] < other.digits[i])
@@ -84,7 +85,7 @@ class bigint {
 		return false;
 	}
 	bool operator>(const bigint& other) const {
-		return *this < other;
+		return !(*this < other);
 	}
 	
 	bool operator<=(const bigint& other) const {
@@ -104,4 +105,9 @@ class bigint {
 	bool operator==(const bigint& other) const { 
 		return (!(*this < other) && !(*this > other)); 
 	}
+
+	bool operator!=(const bigint& other) const { 
+		return ((*this < other) || (*this > other)); 
+	}
+
 };
