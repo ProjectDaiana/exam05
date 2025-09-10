@@ -34,17 +34,14 @@ class bigint {
 		for (size_t i = 0; i < bi.digits.size(); i++)
 			os << bi.digits[i];
 		return os;
-	}/*
-	bigint operator+(const bigint &first, const bigint &second){
-		//addition();
-	}*/
+	}
 	// -
 	bigint operator-(const bigint &second) const{
 		(void)second;
 		return bigint(0);
 	} 
 
-	//sum scalar
+	//sum
 	bigint operator+(const bigint& other) const{
 		int a = static_cast<int>(this->digits.size());
 		int o = static_cast<int>(other.digits.size());
@@ -86,30 +83,57 @@ class bigint {
 		*this = addition(1); 
 		return tmp;
 	}
-/*
 
 	//shifting
 	bigint operator<<(int lsh) const{
 		bigint cpy(*this);
+		if (cpy.digits.size() == 1 && cpy.digits[0] == 0)
+			return cpy;
 		for (int i =0 ; i < lsh; i++)		
 			cpy.digits.push_back(0);
 		return cpy;
 	}
 
 	bigint operator<<(const bigint& lsh) const {
-	//	biginy cpy(*this);
-	//	for 
+		bigint cpy(*this);
+		if (cpy.digits.size() == 1 && cpy.digits[0] == 0)
+			return cpy;			
+		for (bigint i = 0; i < lsh; i++) {
+			cpy.digits.push_back(0);
+		}
+		return cpy;
 	}
-	
+
 	bigint operator>>(int rsh) const {
 		bigint cpy(*this);
-		for (int i = digits.size(); i > rsh)
+		if(cpy.digits.empty()) {
+			cpy.digits.push_front(0);
+			return cpy;
+		}
+		for (int i = 0; i < rsh; i++)
+			cpy.digits.pop_back();
+		return cpy;
 	}
 
+	bigint operator>>(const bigint& rsh) const {
+		bigint cpy(*this);
+		if (cpy.digits.empty()) {
+			cpy.digits.push_front(0);
+			return cpy;
+		}
+		for (bigint i; i < rsh; i++)
+			cpy.digits.pop_back();
+		return cpy;	
+	}
 
-	bigint operator<<=() {}
-	bigint operator>>=() {}
-*/
+	bigint operator<<=(const bigint& other) {
+		return (*this << other);
+	}
+
+	bigint operator>>=(const bigint& other) {
+		return (*this >> other);		
+	}
+
 	// bools
 	// mayor y menor
 	bool operator<(const bigint& other) const {
