@@ -68,19 +68,19 @@ class bigint {
 
 	// =+ 
 	bigint& operator+=(const bigint& other) {
-		*this = addition(other);
+		*this = this* + other;
 		return *this;
 	}
 
 	//increment pre y post
 	bigint& operator++() {
-		*this = addition(1);
+		*this = *this bigint(1);
 		return (*this);
 	}
 	
 	bigint operator++(int) {
 		bigint tmp(*this);
-		*this = addition(1); 
+		*this = *this + bigint(1); 
 		return tmp;
 	}
 
@@ -126,11 +126,11 @@ class bigint {
 		return cpy;	
 	}
 
-	bigint operator<<=(const bigint& other) {
+	bigint& operator<<=(const bigint& other) {
 		return (*this << other);
 	}
 
-	bigint operator>>=(const bigint& other) {
+	bigint& operator>>=(const bigint& other) {
 		return (*this >> other);		
 	}
 
@@ -149,7 +149,7 @@ class bigint {
 		return false;
 	}
 	bool operator>(const bigint& other) const {
-		return !(*this < other);
+		return (other < *this);
 	}
 	
 	bool operator<=(const bigint& other) const {
