@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <deque>
+#include <cstdlib>
 
 class bigint {
 	//store in array of unsigned integers
@@ -12,7 +13,7 @@ class bigint {
 	std::deque<int> digits;
 
 	//cannonical
-	bigint() : digits(0) {}; // default constructor
+	bigint() : digits(1) {}; // default constructor
 	bigint(size_t n) { //fill up the deque
 		while(n) {
 			digits.push_front(static_cast<int>(n % 10));
@@ -34,15 +35,54 @@ class bigint {
 			os << bi.digits[i];
 		return os;
 	}/*
+	bigint operator+(const bigint &first, const bigint &second){
+		//addition();
+	}*/
+	// -
+	bigint operator-(const bigint &second) {
+		(void)second;
+		return bigint(0);
+	} 
 
+	//sum scalar
+	bigint operator+(const bigint& other) const{
+		int a = static_cast<int>(this->digits.size());
+		int o = static_cast<int>(other.digits.size());
+
+		const bigint& smaller((a < o) ? *this : other);
+		bigint bigger = (a < o) ? other : *this; //copy
+
+		int diff = std::abs(a - o); 
+	
+		int carry = 0;
+		for (int i = bigger.digits.size() - 1; i >= 0 ; i--)
+		{
+			int j = i - diff;
+			int sd = (j >= 0) ? smaller.digits[j] : 0;
+			int sum = (bigger.digits[i] + sd + carry);
+			
+			bigger.digits[i] = (sum % 10);
+		   	carry = sum / 10;
+		}
+		if (carry > 0)
+			bigger.digits.push_front(carry);
+		return bigger;
+	};
+
+	// =+ 
+	bigint& operator+=(const bigint& other) {
+		*this = addition(other);
+		return *this;
+	}
+/*
 	//increment pre y post
 	bigint& operator++() {
-		// iterate the digits and add 1 to each?
+		return (*this += 1);// add 1
 	}
 	
 	bigint operator++(int) {
 		bigint tmp(&this);
-		// increase all digits?
+		// add 1
 		return tmp;
 	}
 
@@ -57,16 +97,28 @@ class bigint {
 
 
 	//sum scalar
-	friend bigint operator+(int s) {};
+	friend bigint operator+(int s, bigint* other) {};
 
-	// =+ 
-	bigint& operator=+() {
-		
-	}
 
 	//shifting
-	bigint operator<<() {}
-	bigint operator>>() {}
+	bigint operator<<(int lsh) const{
+		bigint cpy(*this);
+		for (int i =0 ; i < lsh; i++)		
+			cpy.digits.push_back(0);
+		return cpy;
+	}
+
+	bigint operator<<(const bigint& lsh) const {
+	//	biginy cpy(*this);
+	//	for 
+	}
+	
+	bigint operator>>(int rsh) const {
+		bigint cpy(*this);
+		for (int i = digits.size(); i > rsh)
+	}
+
+
 	bigint operator<<=() {}
 	bigint operator>>=() {}
 */
@@ -110,4 +162,30 @@ class bigint {
 		return ((*this < other) || (*this > other)); 
 	}
 
+
+	private:
+		bigint addition(const bigint &other){
+		int a = static_cast<int>(this->digits.size());
+		int o = static_cast<int>(other.digits.size());
+
+		const bigint& smaller((a < o) ? *this : other);
+		bigint bigger = (a < o) ? other : *this; //copy
+
+		int diff = std::abs(a - o); 
+	
+		int carry = 0;
+		for (int i = bigger.digits.size() - 1; i >= 0 ; i--)
+		{
+			int j = i - diff;
+			int sd = (j >= 0) ? smaller.digits[j] : 0;
+			int sum = (bigger.digits[i] + sd + carry);
+			
+			bigger.digits[i] = (sum % 10);
+		   	carry = sum / 10;
+		}
+		if (carry > 0)
+			bigger.digits.push_front(carry);
+		return bigger;
+
+		}
 };
