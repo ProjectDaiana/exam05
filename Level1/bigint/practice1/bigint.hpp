@@ -39,7 +39,7 @@ class bigint {
 		//addition();
 	}*/
 	// -
-	bigint operator-(const bigint &second) {
+	bigint operator-(const bigint &second) const{
 		(void)second;
 		return bigint(0);
 	} 
@@ -74,31 +74,19 @@ class bigint {
 		*this = addition(other);
 		return *this;
 	}
-/*
+
 	//increment pre y post
 	bigint& operator++() {
-		return (*this += 1);// add 1
+		*this = addition(1);
+		return (*this);
 	}
 	
 	bigint operator++(int) {
-		bigint tmp(&this);
-		// add 1
+		bigint tmp(*this);
+		*this = addition(1); 
 		return tmp;
 	}
-
-	//sum
-	bigint operator+(const bigint& other){
-		add_or_subst();
-	}
-	// -
-	bigint operator-(const bigint first&, const bigint &second) {
-		return bigint(0);
-	} 
-
-
-	//sum scalar
-	friend bigint operator+(int s, bigint* other) {};
-
+/*
 
 	//shifting
 	bigint operator<<(int lsh) const{
